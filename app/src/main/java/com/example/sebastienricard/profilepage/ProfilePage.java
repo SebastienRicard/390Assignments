@@ -12,10 +12,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class ProfilePage extends AppCompatActivity {
 
-    protected EditText NameEditText;
+    public EditText NameEditText;
     protected TextView BMIText;
+    protected TextView BMINumber;
+    protected TextView BMRText;
+    protected TextView BMRNumber;
+    public EditText Age;
+    public EditText Weight;
+    public EditText Height;
+    Button SaveButton;
+
+    boolean verified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +34,16 @@ public class ProfilePage extends AppCompatActivity {
         setContentView(R.layout.activity_profile_page);
 
         NameEditText = (EditText) findViewById(R.id.NameEditText);
-        BMIText = (TextView) findViewById(R.id.BMIView);
-        final Button SaveButton = (Button) findViewById(R.id.SaveButton);
+        BMIText = (TextView) findViewById(R.id.BMIText);
+        BMINumber = (TextView) findViewById(R.id.BMINumber);
+        BMRText = (TextView) findViewById(R.id.BMRText);
+        BMRNumber = (TextView) findViewById(R.id.BMRNumber);
+        Age = (EditText) findViewById(R.id.AgeNumber);
+        Weight = (EditText) findViewById(R.id.WeightNumber);
+        Height = (EditText) findViewById(R.id.HeightNumber);
+
+
+        SaveButton = (Button) findViewById(R.id.SaveButton);
         SaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,10 +52,22 @@ public class ProfilePage extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("ProfileName", NameEditText.getText().toString());
                 editor.commit();
+
+                BMIText.setVisibility(View.VISIBLE);
+                BMINumber.setVisibility(View.VISIBLE);
+                BMRText.setVisibility(View.VISIBLE);
+                BMRNumber.setVisibility(View.VISIBLE);
+                SaveButton.setVisibility(View.GONE);
             }
         });
     }
 
+    protected void TextVerifier(){
+        if (NameEditText == null)
+            verified = false;
+        else
+            verified = true;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.profile_menu, menu);
@@ -52,6 +83,10 @@ public class ProfilePage extends AppCompatActivity {
 
             case R.id.action_edit:
                 BMIText.setVisibility(View.GONE);
+                BMINumber.setVisibility(View.GONE);
+                BMRText.setVisibility(View.GONE);
+                BMRNumber.setVisibility(View.GONE);
+                SaveButton.setVisibility(View.VISIBLE);
                 return true;
         }
 
